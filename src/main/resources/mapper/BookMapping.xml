@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingshuge.dao.BookMapper">
+
+<!--    Book SearchBook(@Param("bookname") String bookname);-->
+    <select id="SearchBook" resultType="Book">
+        SELECT * FROM book WHERE bookname LIKE CONCAT('%', #{bookname},'%')
+    </select>
+
+    <insert id="insertFile">
+        INSERT INTO book (book_id,user_id,bookname,book_path,fileType)
+        VALUES (#{book_id},#{user_id},#{bookname},#{book_path},#{fileType})
+    </insert>
+
+<!--    <insert id="insertFile">-->
+<!--        INSERT INTO book (book_id,user_id, bookname, book_path)-->
+<!--        VALUES (#{book_id}, #{user_id},#{bookname}, #{book_path})-->
+<!--    </insert>-->
+
+    <select id="selectFileById" resultType="Book">
+        SELECT * FROM book WHERE book_id=#{book_id}
+    </select>
+
+
+</mapper>
+
+
+

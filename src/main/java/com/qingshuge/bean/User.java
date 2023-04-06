@@ -6,15 +6,11 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private int money;
+    private int fans;
 
 
     public User() {
-    }
-
-    public User(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
     }
 
     public int getId() {
@@ -49,6 +45,31 @@ public class User {
         this.email = email;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public int getFans() {
+        return fans;
+    }
+
+    public void setFans(int fans) {
+        this.fans = fans;
+    }
+
+    public User(int id, String username, String password, String email, int money, int fans) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.money = money;
+        this.fans = fans;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -56,6 +77,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", money=" + money +
+                ", fans=" + fans +
                 '}';
     }
 }

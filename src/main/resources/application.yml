@@ -2,12 +2,27 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/eesy?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/eesy?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
+    elasticsearch:
+      rest:
+        uris: localhost:9200
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      # 上传请求的大小限制，这里设置为20MB
+      max-request-size: 20MB
+      # 文件上传的临时目录，需要保证该目录在本地文件系统中存在
+      location: /var/tmp/
+#  mvc:
+#    servlet:
+#      load-on-startup: 1
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.qingshuge
+  type-aliases-package: com.qingshuge.bean
+
 
 server:
   port: 9090
+

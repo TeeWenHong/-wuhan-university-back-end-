@@ -2,10 +2,61 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qingshuge.dao.UserDao">
-    <select id="getUserByMassage" resultType="com.qingshuge.bean.User">
-        SELECT * FROM userinfo where
+<mapper namespace="com.qingshuge.dao.UserMapper">
+
+    <select id="getUserByMassage" resultType="User">
+        SELECT * FROM noveluser where
         username= #{username} and password=#{password}
     </select>
+
+<!--    int bookNumber(@Param("id") int id);-->
+    <select id="bookNumber" resultType="int">
+        SELECT COUNT(book.book_id) AS book_count
+        FROM noveluser
+        LEFT JOIN book ON noveluser.id = book.user_id
+        WHERE noveluser.id = #{id};
+    </select>
+
+<!--    <insert id="save">-->
+<!--        INSERT INTO noveluser(username, password) VALUES(#{username}, #{password})-->
+<!--    </insert>-->
+
+<!--    <select id="queryUserByUp" resultType="User">-->
+<!--        select * from noveluser where username = #{username} AND password = #{password}-->
+<!--    </select>-->
+
+<!--    <select id="queryUserList" resultType="User">-->
+<!--        select * from noveluser-->
+<!--    </select>-->
+
+<!--    <select id="queryUserByUserName" resultType="User">-->
+<!--        select * from noveluser where username = #{username}-->
+<!--    </select>-->
+
+<!--    <insert id="addUser" parameterType="User">-->
+<!--        insert into noveluser (username,password)-->
+<!--        values (username = #{username},password = #{password});-->
+<!--    </insert>-->
+
+
+    <select id="findAll" resultType="User">
+        select * from noveluser
+    </select>
+    <select id="findByName" resultType="User">
+        select * from noveluser where username=#{username}
+    </select>
+    <select id="findPswByName" resultType="String">
+        select * from noveluser where username = #{username}
+    </select>
+    <insert id="save">
+        insert into noveluser(username,password) value (#{username},#{password})
+    </insert>
+
 </mapper>
+
+<!--<mapper namespace="com.qingshuge.dao.SinginDao">-->
+<!--<insert id="poseUserByMassage" resultType="com.qingshuge.bean.User">-->
+<!--    INSERT INTO userinfo (username,password) VALUES (#{username},#{password})-->
+<!--</insert>-->
+<!--</mapper>-->
 

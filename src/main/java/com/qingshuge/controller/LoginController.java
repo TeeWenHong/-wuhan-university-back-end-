@@ -2,12 +2,10 @@ package com.qingshuge.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.qingshuge.bean.User;
-import com.qingshuge.dao.UserDao;
+
+import com.qingshuge.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -15,21 +13,39 @@ import java.util.HashMap;
 public class LoginController {
 
     @Autowired
-    UserDao userDao;
+    UserMapper userMapper;
 
-    @RequestMapping("/login")
+
+
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     public String login(@RequestBody  User user){
         String flag = "error";
-        User us = userDao.getUserByMassage(user.getUsername(),user.getPassword());
-        //System.out.println("user;"+us);
+//        System.out.println("user"+ user.getUsername());
+        User us = userMapper.getUserByMassage(user.getUsername(),user.getPassword());
+        int fans = userMapper.bookNumber(us.getId());
+
+        System.out.println("nooknumber  "+ fans);
+//        System.out.println("id:"+ user.getId());
+//        System.out.println("emai:"+ user.getId());
         HashMap<String,Object> res = new HashMap<>();
         if (us != null){
             flag ="ok";
         }
+        res.put("user",us);
         res.put("flag",flag);
-        res.put("user",user);
+        res.put("bookNumber",fans);
+
         String res_json = JSON.toJSONString(res);
-        System.out.println(us);
+        System.out.println(res_json);
+        
         return res_json;
     }
+
+    @RequestMapping(value = "/bookNumber",method = RequestMethod.GET)
+    public int bookNumber(@RequestParam("id") int id){
+        int booknumber = userMapper.bookNumber(id);
+        return booknumber;
+    }
+
+
 }

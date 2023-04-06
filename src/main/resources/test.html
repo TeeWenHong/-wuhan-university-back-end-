@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background: url("/img/download.jpg");
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+        body > div {
+            width: 1000px;
+            margin: 50px auto;
+            padding: 10px 20px;
+            border: 1px solid lightgray;
+            border-radius: 20px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .upload {
+            display: inline-block;
+            width: 300px;
+            height: 280px;
+            border: 1px dashed lightcoral;
+            vertical-align: top;
+        }
+        .upload .cover {
+            width: 200px;
+            height: 200px;
+            margin: 10px 50px;
+            border: 1px solid black;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 200px;
+            position: relative;
+        }
+        .upload img {
+            width: 198px;
+            height: 198px;
+            position: absolute;
+            left:0;
+            top: 0;
+        }
+        .upload input {
+            margin-left: 50px;
+        }
+        .upload button {
+            width: 80px;
+            height: 30px;
+            margin-left: 110px;
+        }
+        .result-block {
+            display:  inline-block;
+            margin-left: 40px;
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            min-height: 500px;
+            width: 600px;
+        }
+        .result-block h1 {
+            text-align: center;
+            margin-top: 100px;
+        }
+        .result {
+            padding: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .result:hover {
+            background: rgb(240, 240, 240);
+        }
+        .result p {
+            width: 110px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .result img {
+            width: 160px;
+            height: 160px;
+        }
+        .result .prob {
+            color: rgb(37, 147, 60)
+        }
+    </style>
+    <script src="js/jquery-3.6.0.js"></script>
+</head>
+<body>
+<div>
+    <div class="upload">
+        <div class="cover">
+            请选择图片
+            <img id="image" src=""/>
+        </div>
+        <input id="file" type="file">
+    </div>
+    <div class="result-block">
+        <h1>请选择图片</h1>
+    </div>
+</div>
+<ul id="box">
+
+</ul>
+<script>
+    var file = $('#file')
+    file.change(function () {
+        let f = this.files[0]
+        let index = f.name.lastIndexOf('.')
+        let fileText = f.name.substring(index,f.name.length)
+        let ext = fileText.toLowerCase() //文件类型
+        console.log(ext)
+        if(ext != '.png' && ext != '.jpg' && ext != '.jpeg'){
+            alert('系统仅支持 JPG、PNG、JPEG 格式的图片，请您调整格式后重新上传')
+            return
+        }
+        $('.result-block').empty().append($('<h1>正在识别中...</h1>'))
+        $("#image").attr("src",getObjectURL(f));
+        let formData = new FormData()
+        formData.append('file',f)
+        $.ajax({
+            url: 'http://localhost:9090/search',
+            method: 'post',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: res => {
+                console.log('shibie', res)
+                $('.result-block').empty()
+                for (let item of res) {
+                    console.log(item)
+                    let html = `<div class="result">
+                                    <img src="file:///${item.url}"/>
+                                    <div style="display: inline-block;vertical-align: top">
+                                        <p class="prob">得分：${item.score.toFixed(4)}</p>
+                                    </div>
+                                </div>`
+                    $('.result-block').append($(html))
+                }
+
+            }
+        })
+    });
+    $('#button').click(function(e) {
+        var file = $('#file')[0].files[0] //单个
+        console.log(file)
+    })
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjcectURL != undefined) {
+            url = window.createOjcectURL(file);
+        } else if (window.URL != undefined) {
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) {
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+    function detect() {
+
+    }
+</script>
+</body>
+</html>
