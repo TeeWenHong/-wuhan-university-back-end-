@@ -9,10 +9,31 @@
         SELECT * FROM book WHERE bookname LIKE CONCAT('%', #{bookname},'%')
     </select>
 
+<!--    List<Book> searchTag(@Param("tag") String tag);-->
+    <select id="searchTag" resultType="Book">
+        SELECT * FROM book WHERE tag = #{tag}
+    </select>
+
     <insert id="insertFile">
         INSERT INTO book (book_id,user_id,bookname,book_path,fileType)
         VALUES (#{book_id},#{user_id},#{bookname},#{book_path},#{fileType})
     </insert>
+
+<!--    List<ShowAllInfo> searchAll(@Param("bookname") String bookname);-->
+    <select id="searchAll" resultType="ShowAllInfo">
+<!--        SELECT noveluser.username-->
+<!--        FROM book-->
+<!--        INNER JOIN noveluser-->
+<!--        ON book.user_id = noveluser.id-->
+<!--        WHERE book.user_id =#{user_id}-->
+<!--        LIMIT 1;-->
+        SELECT book.*, noveluser.username
+        FROM book
+        INNER JOIN noveluser
+        ON book.user_id = noveluser.id
+        WHERE book.bookname LIKE CONCAT('%', #{bookname},'%') ;
+    </select>
+
 
 <!--    <insert id="insertFile">-->
 <!--        INSERT INTO book (book_id,user_id, bookname, book_path)-->

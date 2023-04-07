@@ -16,7 +16,7 @@ public class LoginController {
     UserMapper userMapper;
 
 
-
+//  登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public String login(@RequestBody  User user){
         String flag = "error";
@@ -41,6 +41,7 @@ public class LoginController {
         return res_json;
     }
 
+//    有多少本书
     @RequestMapping(value = "/bookNumber",method = RequestMethod.GET)
     public int bookNumber(@RequestParam("id") int id){
         int booknumber = userMapper.bookNumber(id);

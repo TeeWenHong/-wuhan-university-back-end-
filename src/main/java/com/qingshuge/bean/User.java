@@ -6,6 +6,9 @@ public class User {
     private String username;
     private String password;
     private String email;
+
+    private String sex;
+    private String phone;
     private int money;
     private int fans;
 
@@ -61,11 +64,29 @@ public class User {
         this.fans = fans;
     }
 
-    public User(int id, String username, String password, String email, int money, int fans) {
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public User(int id, String username, String password, String email, String sex, String phone, int money, int fans) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.sex = sex;
+        this.phone = phone;
         this.money = money;
         this.fans = fans;
     }
@@ -77,6 +98,8 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", sex='" + sex + '\'' +
+                ", phone='" + phone + '\'' +
                 ", money=" + money +
                 ", fans=" + fans +
                 '}';

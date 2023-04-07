@@ -52,6 +52,13 @@
         insert into noveluser(username,password) value (#{username},#{password})
     </insert>
 
+<!--    void upload(User user,int id);-->
+    <update id="upload" >
+        update noveluser
+        set username = #{user.username} , password = #{user.password} , sex = #{user.sex} , phone = #{user.phone}, email = #{user.email}
+        where id = 2
+    </update>
+
 </mapper>
 
 <!--<mapper namespace="com.qingshuge.dao.SinginDao">-->

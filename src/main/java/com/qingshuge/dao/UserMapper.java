@@ -34,5 +34,7 @@ public interface UserMapper {
     User findByName(String username);
 //    String findPswByName(String userName);
     void save(User user);
+
+    void upload(@Param("user")User user,@Param("id")int id);
 }
 
