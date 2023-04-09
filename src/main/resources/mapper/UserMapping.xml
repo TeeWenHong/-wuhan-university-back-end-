@@ -56,7 +56,7 @@
     <update id="upload" >
         update noveluser
         set username = #{user.username} , password = #{user.password} , sex = #{user.sex} , phone = #{user.phone}, email = #{user.email}
-        where id = 2
+        where id = #{id}
     </update>
 
 </mapper>

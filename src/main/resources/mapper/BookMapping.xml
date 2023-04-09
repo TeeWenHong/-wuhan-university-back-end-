@@ -14,9 +14,19 @@
         SELECT * FROM book WHERE tag = #{tag}
     </select>
 
+<!--    List<Book> searchId(@Param("tag") int id);-->
+    <select id="searchId" resultType="ShowAllInfo">
+        SELECT book.*, noveluser.username, pic.picture_path
+        FROM book
+        INNER JOIN noveluser ON book.user_id = noveluser.id
+        LEFT JOIN pic ON book.pic_id = pic.pic_id
+        WHERE book.user_id = #{user_id};
+    </select>
+
+
     <insert id="insertFile">
-        INSERT INTO book (book_id,user_id,bookname,book_path,fileType)
-        VALUES (#{book_id},#{user_id},#{bookname},#{book_path},#{fileType})
+        INSERT INTO book (book_id,user_id,bookname,book_path,fileType,tag, pic_id)
+        VALUES (#{book_id},#{user_id},#{bookname},#{book_path},#{fileType},#{tag},0)
     </insert>
 
 <!--    List<ShowAllInfo> searchAll(@Param("bookname") String bookname);-->
@@ -27,12 +37,19 @@
 <!--        ON book.user_id = noveluser.id-->
 <!--        WHERE book.user_id =#{user_id}-->
 <!--        LIMIT 1;-->
-        SELECT book.*, noveluser.username
+        SELECT book.*, noveluser.username, pic.picture_path
         FROM book
-        INNER JOIN noveluser
-        ON book.user_id = noveluser.id
-        WHERE book.bookname LIKE CONCAT('%', #{bookname},'%') ;
+        INNER JOIN noveluser ON book.user_id = noveluser.id
+        LEFT JOIN pic ON book.pic_id = pic.pic_id
+        WHERE book.bookname LIKE CONCAT('%', #{bookname}, '%');
+
     </select>
+
+
+<!--    void delectBook(@Param(book_id) String book_id);-->
+    <delete id="deleteBook">
+        DELETE FROM book WHERE book_id = '${book_id}';
+    </delete>
 
 
 <!--    <insert id="insertFile">-->
@@ -43,6 +60,7 @@
     <select id="selectFileById" resultType="Book">
         SELECT * FROM book WHERE book_id=#{book_id}
     </select>
+
 
 
 </mapper>

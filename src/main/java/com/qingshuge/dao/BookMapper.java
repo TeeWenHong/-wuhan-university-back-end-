@@ -22,6 +22,7 @@ public interface BookMapper {
 
     //书名搜索书籍
     List<Book> searchTag(@Param("tag") String tag);
+    List<ShowAllInfo> searchId(@Param("user_id") int user_id);
 
 //    用书名搜索全部信息
     List<ShowAllInfo> searchAll(@Param("bookname") String bookname);
@@ -30,13 +31,14 @@ public interface BookMapper {
 
 
 //    上传文件
-    void insertFile(@Param("book_id") String book_id ,@Param("user_id") int user_id,@Param("bookname") String bookname,@Param("book_path") String book_path,@Param("fileType") String fileType);
+    void insertFile(@Param("book_id") String book_id ,@Param("user_id") int user_id,@Param("bookname") String bookname,@Param("book_path") String book_path,@Param("fileType") String fileType,@Param("tag") String tag);
 //    void insertFile(@Param("user_id") int user_id,@Param("bookname") String bookname,@Param("book_path") String book_path,@Param("fileType") String fileType);
 //    @Select("SELECT * FROM file_upload WHERE file_id = #{fileId}")
 
 //    用书本号查找书籍
     Book selectFileById(@Param("book_id") String book_id);
 
+    int deleteBook(@Param("book_id") int book_id);
 
 
 }

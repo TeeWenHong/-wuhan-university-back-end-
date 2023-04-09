@@ -38,6 +38,14 @@ public class SearchController1 {
         return books;
     }
 
+    @RequestMapping("/searchId")
+    public List<ShowAllInfo> searchId(@RequestParam("user_id") int user_id) {
+        List<ShowAllInfo> books = bookMapper.searchId(user_id);
+//        System.out.println(books);
+        return books;
+    }
+
+
     //书名搜索书籍
     @RequestMapping("/searchAll")
     public List<ShowAllInfo> searchAll(@RequestParam("bookname") String bookname) {

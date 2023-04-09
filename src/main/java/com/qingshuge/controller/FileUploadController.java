@@ -77,7 +77,7 @@ public class FileUploadController {
 // ...
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("id") int id) {
+    public String uploadFile(@RequestParam("file") MultipartFile file,@RequestParam("bookname") String bookname, @RequestParam("id") int id,@RequestParam("tag") String tag) {
         // 获取文件原始名
         String originalFilename = file.getOriginalFilename();
         // 获取文件后缀名
@@ -92,13 +92,14 @@ public class FileUploadController {
             // 将文件信息插入到数据库
             Book book = new Book();
             book.setBook_id(UUID.randomUUID().toString());
-            book.setBookname(originalFilename);
+            book.setBookname(bookname);
             book.setBook_path(destFile.getAbsolutePath());
             book.setUser_id(id);
+            book.setTag(tag);
             Tika tika = new Tika();
             String fileType = tika.detect(destFile);
             book.setFileType(fileType);
-            bookMapper.insertFile(book.getBook_id(), book.getUser_id(), book.getBookname(), book.getBook_path(), book.getFileType());
+            bookMapper.insertFile(book.getBook_id(), book.getUser_id(), book.getBookname(), book.getBook_path(), book.getFileType(),book.getTag());
 //            bookMapper.insertFile(book.getUser_id(), book.getBookname(), book.getBook_path(), book.getFileType());
             return "上传成功";
         } catch (IOException e) {
