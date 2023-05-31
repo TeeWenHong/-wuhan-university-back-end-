@@ -6,7 +6,7 @@
 
 <!--    Book SearchBook(@Param("bookname") String bookname);-->
     <select id="SearchBook" resultType="Book">
-        SELECT * FROM book WHERE bookname LIKE CONCAT('%', #{bookname},'%')
+        SELECT * FROM booktest WHERE bookname LIKE CONCAT('%', #{bookname},'%')
     </select>
 
 <!--    List<Book> searchTag(@Param("tag") String tag);-->
@@ -23,10 +23,19 @@
         WHERE book.user_id = #{user_id};
     </select>
 
+<!--    List<Book> searchBookId(@Param("book_id") int book_id);-->
+    <select id="searchBookId" resultType="ShowAllInfo">
+        SELECT book.*, noveluser.username, pic.picture_path,chapters.*
+        FROM book
+        INNER JOIN noveluser ON book.user_id = noveluser.id
+        INNER JOIN chapters ON book.book_id = chapters.book_id
+        LEFT JOIN pic ON book.pic_id = pic.pic_id
+        WHERE book.book_id = #{book_id};
+    </select>
 
     <insert id="insertFile">
-        INSERT INTO book (book_id,user_id,bookname,book_path,fileType,tag, pic_id)
-        VALUES (#{book_id},#{user_id},#{bookname},#{book_path},#{fileType},#{tag},0)
+        INSERT INTO book (user_id,bookname,book_path,fileType,tag, pic_id)
+        VALUES (#{user_id},#{bookname},#{book_path},#{fileType},#{tag},0)
     </insert>
 
 <!--    List<ShowAllInfo> searchAll(@Param("bookname") String bookname);-->
@@ -61,6 +70,21 @@
         SELECT * FROM book WHERE book_id=#{book_id}
     </select>
 
+<!--    int uploadBook(@Param("brief_book") String brief_book,@Param("bookname") String bookname,@Param("user_id") int user_id,@Param("tag") String tag);-->
+    <insert id="uploadBook"  useGeneratedKeys="true" keyProperty="book_id">
+        INSERT INTO book (user_id, bookname, brief_book, tag, pic_id)
+        VALUES (#{user_id}, #{bookname}, #{brief_book}, #{tag}, 0)
+        <selectKey keyProperty="book_id" resultType="Int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+<!--    int updateBookPic(@Param("book_id") int book_id,@Param("pic_id") int pic_id);-->
+    <update id="updateBookPic">
+        update book
+        set pic_id = #{pic_id}
+        where book_id = #{book_id}
+    </update>
 
 
 </mapper>

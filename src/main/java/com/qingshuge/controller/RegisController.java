@@ -44,5 +44,7 @@ public class RegisController {
         return userService.findAll();
     }
 
+
+
 }
 

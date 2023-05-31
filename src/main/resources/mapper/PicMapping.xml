@@ -19,6 +19,19 @@
         WHERE pic.user_id = #{user_id} AND pic.buy_flag = 0;
     </select>
 
+    <select id="searchIdPices" resultType="ShowAllInfo">
+        SELECT noveluser.*, pic.*
+        FROM pic
+        INNER JOIN noveluser ON noveluser.id = pic.user_id
+        WHERE pic.user_id = #{user_id}
+    </select>
+
+<!--    Image searchPicIdPic(@Param("pic_id") int pic_id);-->
+<!--    <select id="searchPicIdPic" resultMap="Image">-->
+<!--        SELECT * FROM pic WHERE pic_id = #{pic_id}-->
+<!--    </select>-->
+
+
     <select id="searchMyAllPic" resultType="ShowAllInfo">
         SELECT noveluser.*, pic.*
         FROM pic
@@ -26,8 +39,59 @@
         WHERE pic.user_id =#{user_id}  AND pic.buy_flag = 1;
     </select>
 
+    <update id="setBuyFlag">
+        update pic
+        set buy_flag = 0 , user_id = #{user_id}
+        where pic_id = #{pic_id}
+    </update>
+
     <delete id="deletePic">
-        DELETE FROM pic WHERE pic_id = '${pic_id}';
+        DELETE FROM pic WHERE pic_id = #{pic_id};
     </delete>
 
+<!--    int setUserId(@Param("user_id") int user_id,@Param("pic_id") int pic_id);-->
+<!--    <update id="setBuyFlag">-->
+<!--        update pic-->
+<!--        set buy_flag = 0 , user_id = #{user_id}-->
+<!--        where pic_id = #{pic_id}-->
+<!--    </update>-->
+<!--    int savePicCache();-->
+    <insert id="savePic">
+        INSERT INTO pic (user_id,picname,picture_path,price,brief_pic,buy_flag)
+        VALUES (#{user_id},#{picname},#{picture_path},#{price},#{brief_pic},1)
+    </insert>
+
+    <insert id="savePicBook">
+        INSERT INTO pic (user_id,picname,picture_path,price,brief_pic,buy_flag)
+        VALUES (#{user_id},#{picname},#{picture_path},#{price},#{brief_pic},0)
+    </insert>
+
+<!--    int savePic(@Param("user_id") int user_id);-->
+    <insert id="savePicCache">
+        INSERT INTO picCache (user_id,picture_path)
+        VALUES (#{user_id},#{picture_path})
+    </insert>
+
+    <delete id="deletePicCache">
+        DELETE FROM picCache WHERE user_id = '${user_id}';
+    </delete>
+
+<!--    Image deletePicName(@Param("picture_path") String picture_path);-->
+    <delete id="deletePicName">
+        DELETE FROM pic WHERE picture_path = #{picture_path};
+    </delete>
+
+<!--    Image findByPath(@Param("picture_path") String picture_path);-->
+    <select id="findByPath" resultType="Image">
+        SELECT *
+        FROM pic
+        WHERE pic_id = #{pic_id};
+    </select>
+
+<!--    Image findByPathName(@Param("picture_path") String picture_path);-->
+    <select id="findByPathName" resultType="Image">
+        SELECT *
+        FROM pic
+        WHERE picture_path = #{picture_path};
+    </select>
 </mapper>

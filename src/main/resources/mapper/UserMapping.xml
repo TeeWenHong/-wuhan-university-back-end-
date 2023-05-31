@@ -59,6 +59,19 @@
         where id = #{id}
     </update>
 
+<!--    User money(@Param("id")int id);-->
+    <select id="money" resultType="User">
+        select *
+        from noveluser
+        where id = #{id}
+    </select>
+
+    <update id="setMoney" >
+        update noveluser
+        set money = #{money}
+        where id = #{id}
+    </update>
+
 </mapper>
 
 <!--<mapper namespace="com.qingshuge.dao.SinginDao">-->

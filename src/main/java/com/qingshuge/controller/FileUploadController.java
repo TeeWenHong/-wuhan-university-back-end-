@@ -1,11 +1,18 @@
 package com.qingshuge.controller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.pdf.PdfDocument;
 import com.qingshuge.bean.Book;
+import com.qingshuge.bean.Image;
 import com.qingshuge.dao.BookMapper;
 import com.qingshuge.service.FileService;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -76,6 +83,23 @@ public class FileUploadController {
 
 // ...
 
+    @PostMapping("/uploadBook")
+    public int uploadBook(@RequestParam("brief_book") String brief_book, @RequestParam("bookname") String bookname, @RequestParam("user_id") int user_id, @RequestParam("tag") String tag) {
+        Book book = new Book();
+        book.setBrief_book(brief_book);
+        book.setBookname(bookname);
+        book.setUser_id(user_id);
+        book.setTag(tag);
+
+        int uploadBook = bookMapper.uploadBook(brief_book,bookname,user_id,tag);
+        int test = book.getBook_id();
+//        System.out.println(test);
+        System.out.println(uploadBook);
+        return uploadBook;
+    }
+
+
+
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file,@RequestParam("bookname") String bookname, @RequestParam("id") int id,@RequestParam("tag") String tag) {
         // 获取文件原始名
@@ -91,7 +115,7 @@ public class FileUploadController {
             file.transferTo(destFile);
             // 将文件信息插入到数据库
             Book book = new Book();
-            book.setBook_id(UUID.randomUUID().toString());
+//            book.setBook_id(UUID.randomUUID().toString());
             book.setBookname(bookname);
             book.setBook_path(destFile.getAbsolutePath());
             book.setUser_id(id);
@@ -99,7 +123,7 @@ public class FileUploadController {
             Tika tika = new Tika();
             String fileType = tika.detect(destFile);
             book.setFileType(fileType);
-            bookMapper.insertFile(book.getBook_id(), book.getUser_id(), book.getBookname(), book.getBook_path(), book.getFileType(),book.getTag());
+            bookMapper.insertFile( book.getUser_id(), book.getBookname(), book.getBook_path(), book.getFileType(),book.getTag());
 //            bookMapper.insertFile(book.getUser_id(), book.getBookname(), book.getBook_path(), book.getFileType());
             return "上传成功";
         } catch (IOException e) {
@@ -142,6 +166,42 @@ public class FileUploadController {
         headers.setContentDispositionFormData("attachment", "file.pdf");
         headers.setContentLength(bytes.length);
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
+    private final RestHighLevelClient restHighLevelClient;
+
+    @Autowired
+    public FileUploadController(RestHighLevelClient restHighLevelClient) {
+        this.restHighLevelClient = restHighLevelClient;
+    }
+
+    @RequestMapping("indexBook")
+    public int indexPices(@RequestParam("bookname") String bookname,
+                          @RequestParam("user_id") int user_id,
+                          @RequestParam("tag") String tag,
+                          @RequestParam("brief_book") String brief_book) throws Exception{
+        Book book = new Book();
+        book.setBookname(bookname);
+        book.setUser_id(user_id);
+        book.setTag(tag);
+        book.setBrief_book(brief_book);
+
+
+        IndexRequest indexRequest = new IndexRequest("book");
+        indexRequest.id(Integer.toString(user_id))
+                .source(new ObjectMapper().writeValueAsString(book), XContentType.JSON);
+        IndexResponse indexResponse = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+        System.out.println(indexResponse.status());
+
+        return 1;
+    }
+
+    @RequestMapping("/updateBookPic")
+    public int updateBookPic(@RequestParam("book_id") int book_id ,@RequestParam("pic_id") int pic_id ) {
+
+        int updateBookPic = bookMapper.updateBookPic(book_id,pic_id);
+        System.out.println(updateBookPic);
+        return updateBookPic;
     }
 
 }

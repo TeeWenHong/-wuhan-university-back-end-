@@ -1,15 +1,31 @@
 package com.qingshuge.bean;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Image {
     private int pic_id;
     private int user_id;
     private String picname;
     private String picture_path;
     private String HASH;
-    private String price;
+    private int price;
     private String book_id;
     private boolean buy_flag;
+    private String brief_pic;
 
+    @JsonProperty("HASH")
+    private String hash;
+
+    public Image(){
+
+    }
+    public String getBrief_pic() {
+        return brief_pic;
+    }
+
+    public void setBrief_pic(String brief_pic) {
+        this.brief_pic = brief_pic;
+    }
 
     public boolean isBuy_flag() {
         return buy_flag;
@@ -59,11 +75,11 @@ public class Image {
         this.HASH = HASH;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -75,7 +91,7 @@ public class Image {
         this.book_id = book_id;
     }
 
-    public Image(int pic_id, int user_id, String picname, String picture_path, String HASH, String price, String book_id, boolean buy_flag) {
+    public Image(int pic_id, int user_id, String picname, String picture_path, String HASH, int price, String book_id, boolean buy_flag, String brief_pic) {
         this.pic_id = pic_id;
         this.user_id = user_id;
         this.picname = picname;
@@ -84,6 +100,7 @@ public class Image {
         this.price = price;
         this.book_id = book_id;
         this.buy_flag = buy_flag;
+        this.brief_pic = brief_pic;
     }
 
     @Override
@@ -97,6 +114,7 @@ public class Image {
                 ", price='" + price + '\'' +
                 ", book_id='" + book_id + '\'' +
                 ", buy_flag=" + buy_flag +
+                ", brief_pic='" + brief_pic + '\'' +
                 '}';
     }
 }

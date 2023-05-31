@@ -36,5 +36,11 @@ public interface UserMapper {
     void save(User user);
 
     void upload(@Param("user")User user,@Param("id")int id);
+
+    User money(@Param("id")int id);
+
+    int setMoney(@Param("id") int id,@Param("money") int money);
+
+
 }
 

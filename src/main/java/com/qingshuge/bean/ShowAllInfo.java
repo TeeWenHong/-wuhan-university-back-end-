@@ -10,7 +10,7 @@ public class ShowAllInfo {
     private int fans;
 
 //------------------------------------------------------
-    private String book_id;
+    private int book_id;
     private int user_id;
     private int pic_id;
     private String bookname;
@@ -19,11 +19,71 @@ public class ShowAllInfo {
     private String fileType;
     private String sex;
     private String phone;
+    private String brief;
+    private String brief_book;
 //----------------------------------------------------------------
     private String picname;
     private String picture_path;
     private String HASH;
     private String price;
+    private String brief_pic;
+
+//---------------------------------------------------------------
+
+    private int cpt_id;
+//    private int book_id;
+    private int chapters;
+    private String title;
+//    private String book_path;
+
+
+    public String getBrief_book() {
+        return brief_book;
+    }
+
+    public void setBrief_book(String brief_book) {
+        this.brief_book = brief_book;
+    }
+
+    public String getBrief_pic() {
+        return brief_pic;
+    }
+
+    public void setBrief_pic(String brief_pic) {
+        this.brief_pic = brief_pic;
+    }
+
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
+    }
+
+    public int getCpt_id() {
+        return cpt_id;
+    }
+
+    public void setCpt_id(int cpt_id) {
+        this.cpt_id = cpt_id;
+    }
+
+    public int getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(int chapters) {
+        this.chapters = chapters;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getPicname() {
         return picname;
@@ -133,11 +193,11 @@ public class ShowAllInfo {
     }
 
 
-    public String getBook_id() {
+    public int getBook_id() {
         return book_id;
     }
 
-    public void setBook_id(String book_id) {
+    public void setBook_id(int book_id) {
         this.book_id = book_id;
     }
 
@@ -181,7 +241,7 @@ public class ShowAllInfo {
         this.tag = tag;
     }
 
-    public ShowAllInfo(int id, String username, String password, String email, int money, int fans, String book_id, int user_id, int pic_id, String bookname, String book_path, String tag, String fileType, String sex, String phone, String picname, String picture_path, String HASH, String price) {
+    public ShowAllInfo(int id, String username, String password, String email, int money, int fans, int book_id, int user_id, int pic_id, String bookname, String book_path, String tag, String fileType, String sex, String phone, String brief, String brief_book, String picname, String picture_path, String HASH, String price, String brief_pic, int cpt_id, int chapters, String title) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -197,10 +257,16 @@ public class ShowAllInfo {
         this.fileType = fileType;
         this.sex = sex;
         this.phone = phone;
+        this.brief = brief;
+        this.brief_book = brief_book;
         this.picname = picname;
         this.picture_path = picture_path;
         this.HASH = HASH;
         this.price = price;
+        this.brief_pic = brief_pic;
+        this.cpt_id = cpt_id;
+        this.chapters = chapters;
+        this.title = title;
     }
 
     @Override
@@ -221,10 +287,16 @@ public class ShowAllInfo {
                 ", fileType='" + fileType + '\'' +
                 ", sex='" + sex + '\'' +
                 ", phone='" + phone + '\'' +
+                ", brief='" + brief + '\'' +
+                ", brief_book='" + brief_book + '\'' +
                 ", picname='" + picname + '\'' +
                 ", picture_path='" + picture_path + '\'' +
                 ", HASH='" + HASH + '\'' +
                 ", price='" + price + '\'' +
+                ", brief_pic='" + brief_pic + '\'' +
+                ", cpt_id=" + cpt_id +
+                ", chapters=" + chapters +
+                ", title='" + title + '\'' +
                 '}';
     }
 }

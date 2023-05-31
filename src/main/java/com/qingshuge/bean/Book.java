@@ -1,7 +1,7 @@
 package com.qingshuge.bean;
 
 public class Book {
-    private String book_id;
+    private int book_id;
 
     private int user_id;
 
@@ -11,9 +11,20 @@ public class Book {
 
     private String book_path;
 
+    private String brief_book;
+
     private String tag;
 
     private String fileType;
+
+
+    public String getBrief_book() {
+        return brief_book;
+    }
+
+    public void setBrief_book(String brief_book) {
+        this.brief_book = brief_book;
+    }
 
     public String getFileType() {
         return fileType;
@@ -30,11 +41,11 @@ public class Book {
 
     }
 
-    public String getBook_id() {
+    public int getBook_id() {
         return book_id;
     }
 
-    public void setBook_id(String book_id) {
+    public void setBook_id(int book_id) {
         this.book_id = book_id;
     }
 
@@ -78,12 +89,13 @@ public class Book {
         this.tag = tag;
     }
 
-    public Book(String book_id, int user_id, int pic_id, String bookname, String book_path, String tag, String fileType) {
+    public Book(int book_id, int user_id, int pic_id, String bookname, String book_path, String brief_book, String tag, String fileType) {
         this.book_id = book_id;
         this.user_id = user_id;
         this.pic_id = pic_id;
         this.bookname = bookname;
         this.book_path = book_path;
+        this.brief_book = brief_book;
         this.tag = tag;
         this.fileType = fileType;
     }
@@ -96,6 +108,7 @@ public class Book {
                 ", pic_id=" + pic_id +
                 ", bookname='" + bookname + '\'' +
                 ", book_path='" + book_path + '\'' +
+                ", brief_book='" + brief_book + '\'' +
                 ", tag='" + tag + '\'' +
                 ", fileType='" + fileType + '\'' +
                 '}';
